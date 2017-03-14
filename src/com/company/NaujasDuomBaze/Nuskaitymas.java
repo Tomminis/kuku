@@ -1,9 +1,6 @@
 package com.company.NaujasDuomBaze;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
 
 /**
@@ -59,7 +56,9 @@ public class Nuskaitymas {
         System.out.print("pasirinkote adresai: 1");
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * from studentai");
+            //ResultSet resultSet = statement.executeQuery(" DELETE FROM studentai WHERE id = 3 ");
+
+            ResultSet resultSet= statement.executeQuery("SELECT * FROM `studentai`");
             while (resultSet.next()) {
                 System.out.println("/");
                 System.out.print(resultSet.getInt("id"));
@@ -80,7 +79,35 @@ public class Nuskaitymas {
 
     public void lentele2() {
         System.out.print("pasirinkote adresai: 2");
+        try {
+
+            String insertTableSQL = "INSERT INTO `studentai`"
+                    + "(`name`, `surname`, `phone`) VALUES "
+                    + "(?,?,?)";
+            PreparedStatement preparedStatement =connection.prepareStatement(insertTableSQL);
+            preparedStatement.setString(1, "Petras");
+            preparedStatement.setString(2, "Petraitis");
+            preparedStatement.setString(3, "+37099999999");
+            preparedStatement.executeUpdate();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet= statement.executeQuery("SELECT * FROM `studentai`");
+            while (resultSet.next()) {
+                System.out.println("/");
+                System.out.print(resultSet.getInt("id"));
+                System.out.print("/");
+                System .out.print(resultSet.getString("name"));
+                System.out.print("/");
+                System.out.print(resultSet.getString("surname"));
+                System.out.print("/");
+                System.out.print("/");
+            }
+
+
+        } catch (Exception error) {
+            System.out.print(error);
+        }
     }
+
 
     public void lentele3() {
         System.out.print("pasirinkote adresai: 3");
